@@ -1,40 +1,43 @@
 # Kế Hoạch Phân Công Công Việc Nhóm 
 
-Dựa trên yêu cầu của project (Data Pipeline & Data Observability), công việc được chia cho 4 thành viên. Các thành phần quan trọng, cốt lõi sẽ do Ngô Minh Phong đảm nhận để đảm bảo chất lượng và tiến độ hệ thống, các công việc khác được chia đều cho các thành viên còn lại.
+Dựa trên yêu cầu của project (Data Pipeline & Data Observability), khối lượng công việc được chia đều cho 4 thành viên. Mỗi người sẽ đảm nhận 2 module chính, chia theo từng mảng chuyên môn cụ thể. Các luồng (flow) tích hợp quan trọng nhất đòi hỏi sự tỉ mỉ để hệ thống chạy mượt mà từ đầu đến cuối sẽ do Ngô Minh Phong đảm nhận.
 
 ## 1. Ngô Minh Phong (2A202602025)
-**Nhiệm vụ:**
-- **Xây dựng Data Pipeline Baseline (Bước 9):** Viết `src/pipelines/phase1.py` để kết nối toàn bộ luồng từ lúc load data, cleaning, embedding, đến evaluation.
-- **Xây dựng Data Quality & Reporting (Bước 11):** Viết `src/observability/quality.py` và `src/observability/reporting.py` để theo dõi, đánh giá chất lượng và độ tươi (freshness) của dữ liệu.
-- **Data Corruption & Re-evaluation (Bước 12, 13, 14):** Viết `src/ingestion/corruption.py` và `src/pipelines/corruption_flow.py` để giả lập dữ liệu bẩn, chạy lại pipeline, và xuất report so sánh.
-- **Review và Tích hợp:** Support các thành viên khác khi gặp lỗi, ráp nối toàn bộ code thành một hệ thống hoàn chỉnh.
+**Mảng phụ trách:** Xây dựng Pipeline & Tích hợp hệ thống
+**Nhiệm vụ cụ thể:**
+- **Pipeline Baseline (Bước 9):** Viết `src/pipelines/phase1.py` để kết nối toàn bộ module (load data -> cleaning -> embedding -> evaluation).
+- **Pipeline Corruption & Re-evaluation (Bước 13, 14):** Viết `src/pipelines/corruption_flow.py` để chạy lại luồng khi dữ liệu bẩn và so sánh kết quả.
 
 **Gợi ý cách làm tốt nhất:**
-- **Architecture & Logging:** Sử dụng logging chi tiết ở mỗi giai đoạn chuyển tiếp trong pipeline để dễ dàng debug data type mismatch.
-- **Data Quality:** Thiết lập các rule kiểm tra thật chặt chẽ (vd: missing summary < 5%, freshness limit).
-- **Corruption Flow:** Làm bẩn dữ liệu một cách tinh tế (như làm sai lệch một vài ngày xuất bản, truncate mất một nửa title, v.v) để thấy rõ sự sụt giảm ở các metrics (như Token F1, Hit Rate), từ đó đưa ra kết luận thuyết phục nhất trong file so sánh.
+- Sử dụng logging chi tiết ở mỗi bước chuyển tiếp trong pipeline để theo dõi luồng dữ liệu.
+- Trong file so sánh, cần thiết kế cấu trúc rõ ràng để nêu bật được sự khác biệt (sụt giảm) về metrics (Hit Rate, Token F1) khi dữ liệu bị lỗi và sự phục hồi khi dữ liệu được sửa.
 
 ## 2. Nguyễn Văn Đại (2A202601245)
-**Nhiệm vụ:** 
+**Mảng phụ trách:** Data Ingestion & Manipulation
+**Nhiệm vụ cụ thể:** 
 - **Load Raw Data từ API (Bước 3):** Hoàn thành module `src/ingestion/crossref.py`.
+- **Data Corruption (Bước 12):** Hoàn thành module `src/ingestion/corruption.py` để tạo các kịch bản làm bẩn dữ liệu.
 
 **Gợi ý cách làm tốt nhất:**
-- **API Handling:** Tìm hiểu kỹ tài liệu của Crossref API. Bắt buộc phải có cơ chế `try-except` và `timeout` khi gọi request để pipeline không bị sập nếu API server down.
-- **Data Parsing:** Bóc tách JSON trả về cẩn thận, chỉ giữ lại các fields thiết yếu (tiêu đề, tác giả, abstract, ngày xuất bản) và lưu ở định dạng chuẩn (JSON Lines hoặc một format dễ đọc) vào `data/raw/`.
+- Phần gọi API cần bắt buộc có `try-except` và `timeout` để tránh treo hệ thống.
+- Phần làm bẩn dữ liệu (Corruption) cần đa dạng hóa các kịch bản (ví dụ: làm null một vài summary, truncate title, thay đổi publish_date thành tương lai/quá khứ xa) để test tính chịu đựng của hệ thống.
 
 ## 3. Trần Hoàng Vũ (2A202602000)
-**Nhiệm vụ:**
-- **Làm Sạch Dữ Liệu - Cleaning Data (Bước 4):** Hoàn thành module `src/ingestion/cleaning.py`.
+**Mảng phụ trách:** Data Quality & Processing
+**Nhiệm vụ cụ thể:**
+- **Làm Sạch Dữ Liệu (Bước 4):** Hoàn thành module `src/ingestion/cleaning.py`.
+- **Data Quality Checks (Bước 11):** Hoàn thành module `src/observability/quality.py` để xây dựng các rules kiểm tra độ tươi và chất lượng dữ liệu.
 
 **Gợi ý cách làm tốt nhất:**
-- **Xử lý Null/Missing:** Lọc bỏ các bài không có thông tin cần thiết. Với ngày xuất bản bị khuyết một phần, cần có chiến lược điền bù (imputation) hoặc loại bỏ hợp lý.
-- **Chuẩn hóa văn bản:** Chuyển đổi định dạng ngày tháng về chuẩn chung để tính `age_days` tuyệt đối chính xác.
-- **Text cho Vector Store:** Tạo trường `text_for_embedding` bằng cách ghép Title và Abstract (có thể thêm keyword) một cách mượt mà nhất để tăng khả năng search của mô hình.
+- Khi làm sạch dữ liệu, cần xử lý triệt để các trường hợp missing values (VD: bỏ qua hoặc điền giá trị mặc định). Ghép Title và Abstract để tạo text chuẩn cho việc embedding.
+- Các rules trong Data Quality cần chặt chẽ (VD: không được phép có null ở các cột quan trọng, cảnh báo nếu dữ liệu quá cũ dựa trên `age_days`). Việc này cần phối hợp chặt với dữ liệu đầu ra của phần làm sạch.
 
 ## 4. Nguyễn Thùy Trang (2A202601559)
-**Nhiệm vụ:**
+**Mảng phụ trách:** Evaluation & Reporting
+**Nhiệm vụ cụ thể:**
 - **Tạo Evaluation Set (Bước 5):** Hoàn thành module `src/evaluation/testset.py`.
+- **Sinh Data Quality Report (Bước 11):** Hoàn thành module `src/observability/reporting.py`.
 
 **Gợi ý cách làm tốt nhất:**
-- **Chất lượng bộ test:** Bộ câu hỏi không nên chỉ có các câu hỏi "có/không", hãy soạn thêm những câu hỏi yêu cầu mô hình phải lấy từ context ra (factual QA).
-- **Tính chính xác:** Cực kỳ cẩn thận khi map `ground_truth_doc_ids` với câu hỏi. Nếu map sai, điểm Retrieval Hit Rate của cả pipeline sẽ bằng 0. Nên tự sinh một vài test case và rà soát thủ công để đảm bảo ground_truth thật sự đúng và rõ ràng.
+- Bộ test set cần có đa dạng các loại câu hỏi (đặc biệt là factual QA). Cực kỳ cẩn thận khi đối chiếu `ground_truth_doc_ids` với nội dung để đảm bảo đánh giá Retrieval chính xác.
+- Ở module reporting, đảm bảo file Markdown xuất ra trình bày dưới dạng bảng hoặc biểu đồ dễ nhìn, thể hiện rõ ràng các metrics Pass/Fail của Data Quality.
