@@ -6,10 +6,10 @@
 
 | Thông tin         | Nội dung                  |
 | ------------------ | -------------------------- |
-| Khóa/Lớp         | [K3 hoặc K4]              |
-| Tên nhóm         | [Tên hoặc mã nhóm]     |
-| Repository         | [Đường dẫn repository] |
-| Ngày hoàn thành | [YYYY-MM-DD]               |
+| Khóa/Lớp         | K3              |
+| Tên nhóm         | Balerion     |
+| Repository         |https://github.com/nmpogg/K3_Day10_Data-Pipeline-Data-Observability-TeamBalerion |
+| Ngày hoàn thành | 2026-08-06               |
 
 ### Thành viên và phân công
 
