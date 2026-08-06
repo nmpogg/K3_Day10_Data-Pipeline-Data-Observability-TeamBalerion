@@ -141,7 +141,7 @@
     "judge": {
       "score": 5,
       "correct": true,
-      "reasoning": "The model answer correctly identifies all three authors (Rohin Athavale, Alexander Cresswell, Alice Huffman) matching the reference answer exactly."
+      "reasoning": "The model answer lists the exact same authors as the reference answer: Rohin Athavale, Alexander Cresswell, and Alice Huffman."
     }
   },
   {
@@ -257,7 +257,7 @@
     "judge": {
       "score": 5,
       "correct": true,
-      "reasoning": "The model answer correctly identifies the publication date as June 15, 2026, which is the same date as the reference answer 2026-06-15, just expressed in a different format."
+      "reasoning": "The model answer correctly identifies the publication date as June 15, 2026, which is the same date as the reference answer (2026-06-15), just formatted differently."
     }
   },
   {
@@ -297,7 +297,7 @@
     "ground_truth_doc_ids": [
       "10.2118/234689-pa"
     ],
-    "answer": "SafeRAG is a multistage retrieval-augmented framework designed for generating oil and gas safety reports. It addresses LLMs' knowledge limitations in high-risk industrial settings by using an entity-centric approach that prompts LLMs to internally generate domain-specific knowledge while performing hierarchical retrieval of external regulations at topic, concept, and context levels. The framework integrates internal and external knowledge through prompt engineering and assigns a domain-expert persona to analyze accidents from a specific perspective. Evaluated on a dataset of 10,818 accident-description/report pairs from real-world industry reports, SafeRAG substantially outperforms baseline LLMs on BERTScore and BARTScore metrics.",
+    "answer": "SafeRAG is a multistage retrieval-augmented framework designed for generating oil and gas safety reports. It addresses LLMs' limitations in domain-specific understanding and regulatory alignment by using an entity-centric approach that prompts LLMs to internally generate domain-specific knowledge while performing hierarchical retrieval of external regulations at topic, concept, and context levels. The framework integrates internal and external knowledge through prompt engineering and assigns a domain-expert persona to help LLMs analyze accidents from a specific perspective. Evaluated on a dataset of 10,818 accident-description/report pairs from real-world industry reports, SafeRAG substantially outperforms baseline LLMs on BERTScore and BARTScore metrics.",
     "retrieved_doc_ids": [
       "10.2118/234689-pa",
       "10.20944/preprints202604.0339.v1",
@@ -311,7 +311,7 @@
       "Title: Speculative Retrieval-Augmented Generation for Cost-Efficient Large Language Model Inference | Authors: Dr. Sumalatha P, Manoj Kumar | Summary: Abstract - This work focuses on the two crucial bottlenecks in Retrieval-Augmented Generation (RAG): high inference latency and expensive computation cost. RAG enhances the factual correctness of Large Language Models (LLMs) by utilizing external knowledge sources; However, the auto-To achieve a good recall, the system applies a two-way retrieval mechanism:\n\nDense retrieval: This module uses BAAI/bge-small-en-v1.5 to create a 384-dimensional embedding space, where queries and documents are mapped. The embeddings are stored in a FAISS IndexFlatL2.\nSparse retrieval: This module uses TF-IDF vectorization to capture an exact keyword match.\nReranking: A simple heuristic mechanism of matching substrings of the query terms in the documents selected to perform the final step of ranking them for prompt\n\nintroduce a novel speculative RAG framework that combines hybrid retrieval with speculative decoding. Our framework employs hybrid dense vector search (BGE-small) and sparse keyword search (TF-IDF) for enhanced recall followed by a lightweight re-ranker model. A compact draft model (TinyLlama-1.1B) makes tentative future token generation, then a larger verifier model (Mistral-7B) checks the correctness of the candidate token. Empirical experiments demonstrate 33% and 29% improvement in inference latency and token reduction, respectively, compared to the baseline of a typical 7B model, while retaining 94% accuracy on factoid tasks.\n\nKey Words: Retrieval-Augmented Generation, Speculative Decoding, Large Language Models, Inference Optimization, Hybrid Retrieval"
     ],
     "retrieval_hit": true,
-    "token_f1": 0.5560975609756098,
+    "token_f1": 0.5631067961165049,
     "judge": {
       "score": 5,
       "correct": true,
@@ -326,7 +326,7 @@
     "ground_truth_doc_ids": [
       "10.1007/s10278-026-02086-9"
     ],
-    "answer": "JADE-Plus is a multimodal, agent-controlled retrieval-augmented generation (RAG) framework developed for diagnostic decision support in jawbone lesion assessment. Implemented as a cloud-based, tablet-optimized system, it integrates a vision-language model (VLM) for panoramic radiograph analysis, a knowledge-grounded RAG module, and an agentic verification loop for diagnostic fusion and re-ranking. Evaluated on 40 representative jawbone lesion cases, JADE-Plus achieved a Top-1 accuracy of 90% and a Top-3 accuracy of 100% with no missed diagnoses, significantly outperforming baseline models including JADE, GPT-5.4, GPT-5.4 VLM, and ORAD. Ablation analysis showed the agentic verification stage improved Top-1 and Top-3 accuracy by 15 and 8 percentage points, respectively. The system also demonstrated high reproducibility (mean Jaccard similarity 0.97 \u00b1 0.12) and a mean response time of 33 \u00b1 1.5 seconds per case, supporting the effectiveness of multimodal agentic RAG frameworks for jawbone lesion diagnosis.",
+    "answer": "JADE-Plus is a multimodal, agent-controlled retrieval-augmented generation (RAG) framework developed for diagnostic decision support in jawbone lesion assessment. Implemented as a cloud-based, tablet-optimized system, it integrates a vision-language model (VLM) for panoramic radiograph analysis, a knowledge-grounded RAG module, and an agentic verification loop for diagnostic fusion and re-ranking. Evaluated on 40 representative jawbone lesion cases, JADE-Plus achieved a Top-1 accuracy of 90% and a Top-3 accuracy of 100% with no missed diagnoses, significantly outperforming baseline systems including JADE, GPT-5.4, GPT-5.4 VLM, and ORAD. Ablation analysis showed the agentic verification stage improved Top-1 and Top-3 accuracy by 15 and 8 percentage points, respectively. The system also demonstrated high reproducibility (mean Jaccard similarity 0.97 \u00b1 0.12) and a mean response time of 33 \u00b1 1.5 seconds per case, supporting the effectiveness of multimodal agentic RAG frameworks for jawbone lesion diagnosis.",
     "retrieved_doc_ids": [
       "10.1007/s10278-026-02086-9",
       "10.1093/sleep/zsag091.0346",
@@ -340,11 +340,11 @@
       "Title: Clinical Large Language Models with Multi-Stage Instruction Tuning and Advanced Retrieval-Augmented Generation | Authors: Donald Martin, Blake Bowman | Summary: The demand for efficient and accurate Clinical Decision Support Systems (CDSS) is growing rapidly, driven by the escalating volume of medical data. While Large Language Models (LLMs) offer significant potential, their direct application in healthcare is limited by issues like hallucinations and lack of domain-specific knowledge. Retrieval-Augmented Generation (RAG) addresses these challenges by grounding LLMs with external knowledge, and recent lightweight RAG-based CDSS have shown promise. Building on this, we propose Enhanced Clinical RAG-LLM (ECRAG-LLM), a novel system designed to elevate performance in complex clinical scenarios. ECRAG-LLM utilizes a robust yet lightweight Mistral-based LLM, integrated with a multi-stage instruction tuning strategy that first adapts to general medical knowledge and then reinforces context-aware and causal reasoning using a custom dataset of structured clinical cases. We employ BioSimCSE for domain-specific embeddings and introduce an enhanced RAG architecture featuring hybrid retrieval, cross-encoder-based contextual re-ranking, and context summarization to optimize retrieved information. Extensive experiments on medical benchmarks demonstrate that ECRAG-LLM consistently outperforms baseline lightweight fine-tuned LLMs, achieving significant improvements in diagnostic accuracy, treatment appropriateness, and explanatory quality, particularly in tasks requiring deep clinical reasoning. An ablation study confirms the synergistic contributions of our innovations, and an error analysis highlights a substantial reduction in critical errors, positioning ECRAG-LLM as a more reliable and intelligent solution for resource-constrained clinical environments."
     ],
     "retrieval_hit": true,
-    "token_f1": 0.6468401486988847,
+    "token_f1": 0.6394052044609666,
     "judge": {
       "score": 5,
       "correct": true,
-      "reasoning": "The model answer accurately captures all key findings and components of the paper: JADE-Plus architecture (VLM, RAG, agentic verification), evaluation on 40 cases, Top-1 accuracy of 90%, Top-3 accuracy of 100%, outperformance over baseline models, ablation results showing 15 and 8 percentage point improvements, high reproducibility (Jaccard 0.97 \u00b1 0.12), and response time of 33 \u00b1 1.5 seconds. No material facts are omitted or misrepresented."
+      "reasoning": "The model answer accurately captures all key findings and components of the paper, including the system architecture, evaluation metrics, performance results, ablation analysis, reproducibility, and response time, without any material omissions or errors."
     }
   }
 ]

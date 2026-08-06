@@ -1,0 +1,18 @@
+[
+  {
+    "paper_id": "10.2118/234689-pa",
+    "action": "blank_summary"
+  },
+  {
+    "paper_id": "10.1111/exsy.70341",
+    "action": "stale_date"
+  },
+  {
+    "paper_id": "10.1007/s10278-026-02086-9",
+    "action": "add_noise"
+  },
+  {
+    "paper_id": "10.21203/rs.3.rs-10178277/v1",
+    "action": "duplicate"
+  }
+]

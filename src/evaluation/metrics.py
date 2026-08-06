@@ -53,20 +53,38 @@ Question: {question}
 Reference answer: {reference}
 Model answer: {prediction}
 
-Return:
-- score from 1 to 5
-- correct = true only when the answer is materially correct
-- short reasoning
+You MUST return a valid JSON object EXACTLY like this:
+{{
+    "score": <int from 1 to 5>,
+    "correct": <boolean true or false, true only when the answer is materially correct>,
+    "reasoning": "<short string explaining the reasoning>"
+}}
+Do NOT wrap the JSON in Markdown formatting. Do NOT add any extra text. Return ONLY the JSON object.
 """.strip()
     try:
-        llm = build_llm(settings=settings, temperature=0.0).with_structured_output(JudgeVerdict)
-        return llm.invoke(prompt)
-    except Exception:
+        llm = build_llm(settings=settings, temperature=0.0)
+        response = llm.invoke(prompt)
+        response_text = response.content if hasattr(response, 'content') else str(response)
+        response_text = response_text.strip()
+        if response_text.startswith("```json"):
+            response_text = response_text[7:]
+        elif response_text.startswith("```"):
+            response_text = response_text[3:]
+        if response_text.endswith("```"):
+            response_text = response_text[:-3]
+        import json
+        data = json.loads(response_text.strip())
+        return JudgeVerdict(
+            score=int(data.get("score", 1)),
+            correct=bool(data.get("correct", False)),
+            reasoning=str(data.get("reasoning", "")),
+        )
+    except Exception as exc:
         score = 5 if _token_f1(reference, prediction) >= 0.95 else 3 if _token_f1(reference, prediction) >= 0.5 else 1
         return JudgeVerdict(
             score=score,
             correct=score >= 3,
-            reasoning="Fallback heuristic judge used because the LLM evaluator was unavailable.",
+            reasoning=f"Fallback heuristic judge used because the LLM evaluator failed: {exc}",
         )
 
 
