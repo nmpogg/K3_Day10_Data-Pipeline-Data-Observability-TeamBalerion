@@ -15,11 +15,10 @@
 
 | STT | Họ và tên | MSSV | Vai trò chính | Module/deliverable sở hữu |
 | --: | --- | --- | --- | --- |
-| 1 | [Họ tên] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact] |
-| 2 | [Họ tên] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact] |
-| 3 | [Họ tên] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact] |
-| 4 | [Nếu có] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact] |
-| 5 | [Nếu có] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact] |
+| 1 | Ngô Minh Phong | 2A202602025 | Xây dựng Pipeline & Tích hợp hệ thống | `src/pipelines/phase1.py`, `src/pipelines/corruption_flow.py` |
+| 2 | Nguyễn Văn Đại | 2A202601245 | Data Ingestion & Manipulation | `src/ingestion/crossref.py`, `src/ingestion/corruption.py` |
+| 3 | Trần Hoàng Vũ | 2A202602000 | Data Quality & Processing | `src/ingestion/cleaning.py`, `src/observability/quality.py` |
+| 4 | Nguyễn Thùy Trang | 2A202601559 | Evaluation & Reporting | `src/evaluation/testset.py`, `src/observability/reporting.py` |
 
 ## 2. Tóm tắt kết quả
 
