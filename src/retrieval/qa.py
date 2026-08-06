@@ -3,9 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 import re
 
+from langchain_core.messages import HumanMessage
+
 from core.config import Settings
-from core.utils import first_sentence
 from retrieval.index import LocalEmbeddingIndex, SearchResult
+from retrieval.llm import build_llm
 
 
 @dataclass(frozen=True)
@@ -17,22 +19,11 @@ class AnswerResult:
     retrieved_titles: list[str]
 
 
-def _extract_answer(question: str, top_result: SearchResult) -> str:
-    lowered = question.lower()
-    metadata = top_result.metadata
-    if "who authored" in lowered or "list the authors" in lowered:
-        return metadata["authors_joined"]
-    if "when was" in lowered or "publication date" in lowered or "published on" in lowered:
-        return metadata["published"]
-    if "what categories" in lowered:
-        return metadata["categories_joined"]
-    return first_sentence(metadata["summary"])
-
-
 def answer_question(question: str, settings: Settings, index: LocalEmbeddingIndex, top_k: int | None = None) -> AnswerResult:
     title_match = re.search(r"'([^']+)'", question)
     exact = index.lookup(title_match.group(1)) if title_match else None
     retrieved = index.search(question, top_k=top_k)
+    
     if exact:
         exact_result = SearchResult(
             paper_id=exact["paper_id"],
@@ -43,10 +34,41 @@ def answer_question(question: str, settings: Settings, index: LocalEmbeddingInde
         )
         deduped = [exact_result] + [item for item in retrieved if item.paper_id != exact_result.paper_id]
         retrieved = deduped[: (top_k or settings.top_k)]
+        
     if not retrieved:
         answer = "I don't know from the indexed corpus."
     else:
-        answer = _extract_answer(question, retrieved[0])
+        llm = build_llm(settings=settings, temperature=0.0)
+        
+        context_parts = []
+        for i, item in enumerate(retrieved):
+            meta = item.metadata
+            part = (
+                f"--- Document {i+1} ---\n"
+                f"Title: {meta.get('title', 'N/A')}\n"
+                f"Authors: {meta.get('authors_joined', 'N/A')}\n"
+                f"Published Date: {meta.get('published', 'N/A')}\n"
+                f"Summary: {item.content}"
+            )
+            context_parts.append(part)
+        
+        context_str = "\n\n".join(context_parts)
+        
+        prompt = f"""
+You are an expert AI research assistant. Your task is to answer the user's question accurately based ONLY on the provided context documents.
+Do not use any external knowledge. If the answer cannot be found in the context, say "I don't know from the indexed corpus."
+
+Context Documents:
+{context_str}
+
+Question: {question}
+
+Answer concisely and accurately based on the context above.
+""".strip()
+
+        response = llm.invoke([HumanMessage(content=prompt)])
+        answer = getattr(response, "content", str(response)).strip()
+
     return AnswerResult(
         question=question,
         answer=answer,
