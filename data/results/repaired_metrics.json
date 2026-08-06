@@ -1,7 +1,7 @@
 {
   "samples": 12,
   "retrieval_hit_rate": 1.0,
-  "mean_token_f1": 0.6753852818970629,
+  "mean_token_f1": 0.6912936296074471,
   "judge_accuracy": 1.0,
   "mean_judge_score": 5,
   "ragas": {

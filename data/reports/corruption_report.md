@@ -4,10 +4,10 @@
 
 | Metric | Baseline | Corrupted | Repaired |
 | --- | --- | --- | --- |
-| **Retrieval Hit Rate** | 100.00% | 100.00% | 100.00% |
-| **Mean Token F1** | 0.6754 | 0.6400 | 0.6754 |
-| **Judge Accuracy** | 100.00% | 91.67% | 100.00% |
-| **Mean Judge Score** | 5.00/5.0 | 4.67/5.0 | 5.00/5.0 |
+| **Retrieval Hit Rate** | 100.00% | 83.33% | 100.00% |
+| **Mean Token F1** | 0.6754 | 0.5111 | 0.6913 |
+| **Judge Accuracy** | 100.00% | 66.67% | 100.00% |
+| **Mean Judge Score** | 5.00/5.0 | 3.67/5.0 | 5.00/5.0 |
 
 ## 2. 🛡️ So sánh Data Quality
 
